@@ -785,7 +785,7 @@ function createCardSEInput(parentSEInput, idCardCur, board) {
 	            }
 	            //reports etc will refresh in the NEW_ROWS notification handler
 	        }
-
+            console.log("SET NEW COMMENT")
 	        setNewCommentInCard(idCardCur, keyword, s, e, valComment, prefix, userCur, null, onBeforeStartCommit, onFinished);
 	    });
 	}
@@ -1735,10 +1735,11 @@ function addCardCommentHelp() {
         //simply so in case idBoard(Short) isnt cached, go get it from the api and cache it so its ready when the S/E is entered by the user
 		FindIdBoardFromBoardName(board, idCardCur, function (idBoardFound) { });
 
-		const windowElements = document.querySelectorAll('.card-detail-window');
+		const windowElements = document.querySelectorAll('[data-testid="card-back-name"]');
 
 		for (const windowEl of windowElements) {
-			const newCommentElement = windowEl.querySelector('.new-comment');
+			const newCommentElement = windowEl.querySelector('[data-testid="card-back-new-comment-input-skeleton"]') ||
+        windowEl.querySelector('[data-testid="card-back-comment-editor-container"]');
 			const windowHeaderElement = windowEl.querySelector('.window-header');
 
 			if (newCommentElement) {
@@ -2556,11 +2557,11 @@ function helperInsertHistoryRow(dateNow, idCard, idBoard, strBoard, strCard, rgU
 function doEnterSEIntoCard(s, e, commentBox, comment, idBoard, idCard, strDays, strBoard, keyword, member, memberTransferTo, onBeforeStartCommit, onFinished) {
     var titleCardNew = null;
 	var commentEnter = comment;
-    var elem = $(".card-detail-title-assist");
-    if (elem.length == 0)
-        return; //trello html broke.
-    var titleCur = elem.text();
-    var se = parseSE(titleCur, true);
+    // var elem = $(".card-detail-title-assist");
+    // if (elem.length == 0)
+    //     return; //trello html broke.
+    // var titleCur = elem.text();
+    var se = parseSE("", true);
     var cleanTitle = se.titleNoSE;
 
 	if (!IsStealthMode() && !memberTransferTo) {
